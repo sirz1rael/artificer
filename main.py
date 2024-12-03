@@ -1,4 +1,4 @@
-import os, sys
+import os, sys, subprocess
 from termcolor import colored
 
 try:
@@ -8,6 +8,13 @@ except:
         colored("\nYou need to specify a project folder! Like this: \n", 'light_red', attrs=[]),
         colored("$ python main.py <path/to/project>", 'cyan', attrs=['bold']),
         "\n------------------------------------------------------")
+
+try:
+    cmake_ver_coutput = subprocess.check_output(['cmake', '--version' ]).split()
+except:
+    ins_cmake = str(input("ERROR: CMake isn't installed. Press any button to continue."))
+    if ins_cmake == "":
+        raise SystemExit(1)
 
 # You can change the names of folders here
 
@@ -20,12 +27,17 @@ ast_f = sys.argv[1] + "/assets "    # Default assets folder - /assets
 mkdir = {lib_f, bin_f, inc_f, src_f, ast_f}
 
 def cmake():
-    print("CMake")
-
     for i in mkdir:
         os.system("mkdir " + i)
 
     cmakelists = open(project_path + "CMakeLists.txt", "w")
+
+    project_name = "project(" + str(input("Name your project: ")) + ")"
+    cmake_ver = "cmake_minimum_required(VERSION " + str(cmake_ver_coutput[2])[2:5] + ")"
+
+    cmakelists.write(cmake_ver + "\n")
+    cmakelists.write(project_name + "\n")
+
 
     cmakelists.close()
     os.system("cd " + project_path + "&& cmake .")
