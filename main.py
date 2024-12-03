@@ -9,11 +9,13 @@ except:
         colored("$ python main.py <path/to/project>", 'cyan', attrs=['bold']),
         "\n------------------------------------------------------")
 
-lib_f = sys.argv[1] + "/lib "
-bin_f = sys.argv[1] + "/bin "
-inc_f = sys.argv[1] + "/include "
-src_f = sys.argv[1] + "/src "
-ast_f = sys.argv[1] + "/assets "
+# You can change the names of folders here
+
+lib_f = sys.argv[1] + "/lib "       # Default library folder - /lib
+bin_f = sys.argv[1] + "/bin "       # Default binary folder - /bin
+inc_f = sys.argv[1] + "/include "   # Default includes folder - /include
+src_f = sys.argv[1] + "/src "       # Default sources folder - /src
+ast_f = sys.argv[1] + "/assets "    # Default assets folder - /assets
 
 mkdir = {lib_f, bin_f, inc_f, src_f, ast_f}
 
@@ -26,7 +28,7 @@ def cmake():
     cmakelists = open(project_path + "CMakeLists.txt", "w")
 
     cmakelists.close()
-    os.system("cd " + project_path + "&& cmake -Wno-dev .")
+    os.system("cd " + project_path + "&& cmake .")
 
 def make():
     print("Make")
