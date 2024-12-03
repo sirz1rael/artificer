@@ -3,6 +3,7 @@ from termcolor import colored
 
 try:
     project_path = sys.argv[1]
+    os.system("mkdir " + str(project_path.split()[0]))
 except:
     print("------------------------------------------------------",
         colored("\nYou need to specify a project folder! Like this: \n", 'light_red', attrs=[]),
@@ -26,20 +27,26 @@ ast_f = sys.argv[1] + "/assets "    # Default assets folder - /assets
 
 mkdir = {lib_f, bin_f, inc_f, src_f, ast_f}
 
-mainfile_cpp_text = '#include<iostream>\n\nint main() {\n\tstd::cout << "Hello, world!" << std::endl;\n\treturn 0;\n}'
-
+mainfile_cpp_text = '#include <iostream>\n\nint main() {\n\tstd::cout << "Hello, world!" << std::endl;\n\treturn 0;\n}'
+mainfile_c_text = '#include "stdio.h"\n\nint main(void) {\n\tprintf("Hello, world!");\n\treturn 0;\n}'
 def gen_main_file(j:str, i:str):
 
     mainfile = open(src_f[:-1] + "/" + j + "." + i, "w")
-    mainfile.write(mainfile_cpp_text)
+    if i == 'c':
+        mainfile.write(mainfile_c_text)
+    elif i == 'cpp':
+        mainfile.write(mainfile_cpp_text)
     mainfile.close()
+
+def gen_folders():
+    for i in mkdir:
+        os.system("mkdir " + i)
 
 def cmake():
     mainfile_name = 'main'
     mainfile_ext = 'cpp'
 
-    for i in mkdir:
-        os.system("mkdir " + i)
+    gen_folders()
 
     cmakelists = open(project_path + "/CMakeLists.txt", "w")
 
@@ -55,30 +62,60 @@ def cmake():
 
     cmakelists.close()
     os.system("cd " + project_path + "&& cmake .")
+    tst_bld = str(input("\n\nDo you want to do test build(Y/n)? "))
+    if tst_bld == 'Y' or tst_bld == 'y':
+        os.system("cd " + project_path + " && cmake --build . && ./test")
+    else:
+        raise SystemExit(0)
+
+cflags = "-c -Wall" # There you can choose cflags for make
 
 def make():
-    print("Make")
-    makefile = open("Makefile", 'w')
+    gen_folders()
+
+    chs = int(input("Choose language(1 - C++, 2 - C): "))
+
+    makefile = open(project_path + "/Makefile", 'w')
+
+
+    if chs == 1:
+        makefile.write("CC=g++\n\n")
+        gen_main_file('main', 'cpp')
+    elif chs == 2:
+        makefile.write("CC=gcc\n\n")
+        gen_main_file('main', 'c')
+
+    makefile.write("CFLAGS=" + cflags + "\n\n")
+
+    if chs == 1:
+        makefile.write("SRC=" + str(src_f.split('/')[1][:-1]) + "/main.cpp" + "\n")
+    elif chs == 2:
+        makefile.write("SRC=" + str(src_f.split('/')[1][:-1]) + "/main.c" + "\n")
+    makefile.write("LIB=" + lib_f + "\n\n")
+
+    makefile.write("build:\n\t$(CC) $(CFLAGS) $(SRC)\n")
+    makefile.write("compile:\n\t$(CC) main.o -o main")
 
     makefile.close()
 
-# def ninja():
-#     print("ninja")
+    tst_bld = str(input("Do you want to do test build(Y/n)? "))
+    if tst_bld == 'Y' or tst_bld == 'y':
+        os.system("cd " + project_path + " && (make build && make compile) && ./main")
+    else:
+        raise SystemExit(0)
 
 def main():
     print("WELCOME TO PY GEN C PROJECT SCRIPT!\n")
-    first: str = "Choose build system\n(1 - CMake(default), 2 - Make, 3 - Ninja(not working)): "
+    first: str = "Choose build system(1 - CMake(default), 2 - Make): "
 
-    try:
-        choose: int = int(input(first))
-        if choose == 1:
-            cmake()
-        elif choose == 2:
-            make()
-        else:
-            cmake()
-    except:
+
+    choose: int = int(input(first))
+    if choose == 1:
         cmake()
+    elif choose == 2:
+        make()
+    else:
+            cmake()
 
 
 if __name__ == "__main__":
