@@ -1,6 +1,6 @@
 # Artificer
-Python script which can generate blank projects for C and C++ dev.
 ![](pic.png)
+Python script which can generate blank projects for C and C++ dev.
 
 ## Version 0.2
 **DISCLAIMER:** This tool is developed firstly for my personal use!
