@@ -5,7 +5,7 @@ Python script which can generate blank projects for C and C++ dev.
 **DISCLAIMER:** This tool is developed firstly for my personal use!
 If you want to fix something, then welcome to pull requests.
 
-> [!IMPORTANT]
+> [!WARNING]
 > For now only for linux.
 > Developed on Arch.
 > If it doesn't work on your distro, let me know about it and I'll try to fix that.
