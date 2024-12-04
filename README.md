@@ -11,9 +11,9 @@ If you want to fix something, then welcome to pull requests.
 > Developed on Arch.
 > If it doesn't work on your distro, let me know about it and I'll try to fix that.
 ### Requirements:
-* Python 3.1x
-* termcolor
-* pyinstaller.
+* [Python 3.1x](https://www.python.org/)
+* [termcolor](https://pypi.org/project/termcolor/)
+* [pyinstaller](https://pyinstaller.org/en/stable/)
 
 Script written in python,
 that integrates into system path and helps
