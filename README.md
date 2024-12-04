@@ -23,6 +23,7 @@ you to create blank projects for C and C++ with CMake or Make.
 
 ### Installation:
 ```bash
+git clone https://github.com/sirz1rael/artificer.git
 chmod +x ./install.sh
 ./install.sh
 ```
