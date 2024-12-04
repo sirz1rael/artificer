@@ -18,6 +18,9 @@ Script written in python,
 that integrates into system path and helps
 you to create blank projects for C and C++ with CMake or Make.
 
+> [!CAUTION]
+> Do not launch it above sudo or root previlegies!
+
 ### Installation:
 ```bash
 chmod +x ./install.sh
