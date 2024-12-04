@@ -22,7 +22,7 @@ you to create blank projects for C and C++ with CMake or Make.
 > [!CAUTION]
 > Do not launch it above **sudo** or **root** previlegies!
 
-### Installation:
+### Installation
 ```bash
 git clone https://github.com/sirz1rael/artificer.git
 chmod +x ./install.sh
